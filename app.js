@@ -61,8 +61,8 @@ app.post("/movies/", async (request, response) => {
   INSERT INTO 
   movie(director_id,movie_name,lead_actor)
   VALUES (
-      '${directorId}',
-      ${movieName},
+      ${directorId},
+      '${movieName}',
       '${leadActor}');
   `;
   const dbResponse = await db.run(addMovieDetails);
