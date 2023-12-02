@@ -1,4 +1,4 @@
-GET http://localhost:3000/movies/46/
+GET http://localhost:3000/movies
 
 ###
 Post http://localhost:3000/movies/

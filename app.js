@@ -39,15 +39,16 @@ const convertDirectorDbObjectToResponseObject = (dbObject) => {
 // Returns a list of all movie names in the movie table
 app.get("/movies/", async (request, response) => {
   const getMoviesName = `
-    SELECT movie_name FROM movie
-    ;`;
+    SELECT 
+    movie_name 
+    FROM movie;`;
   const movieArray = await db.all(getMoviesName);
 
   response.send(
-    movieArray.map((eachMovie) => {
-      //movieName: eachMovie.movie_name;
-      convertMoviesDbObjectToResponseObject(eachMovie);
-    })
+    movieArray.map((eachMovie) => ({
+      movieName: eachMovie.movie_name,
+    }))
+    // convertMoviesDbObjectToResponseObject(eachMovie);
   );
 });
 
@@ -119,7 +120,7 @@ app.get("/directors/", async (request, response) => {
   const getDirectorQuery = `
     SELECT * FROM director;
     `;
-  const moviesArray = await db.run(getDirectorQuery);
+  const moviesArray = await db.all(getDirectorQuery);
   response.send(
     moviesArray.map((eachDirector) =>
       convertDirectorDbObjectToResponseObject(eachDirector)
@@ -140,7 +141,7 @@ app.get("/directors/:directorId/movies/", async (request, response) => {
     FROM director INNER JOIN movie 
     ON director.director_id = movie.director_id
     WHERE 
-    director.director_id = ${director_id};
+    director.director_id = ${directorId};
     `;
   const movies = await db.all(getDirectorMovieQuery);
   console.log(directorId);
